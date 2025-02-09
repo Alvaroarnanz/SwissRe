@@ -1,14 +1,13 @@
-version: '3.8'
 services:
   mongo-db:
-    image: mongo:5.0
+    image: mongo:latest
     container_name: mongo-db
     ports:
       - "27017:27017"
     networks:
       - swissre_app-network
     environment:
-      - MONGO_URI=mongodb://mongo-db:27017
+      - MONGO_URI=mongodb://localhost:27017/vulnerabilities_db
     command: ["mongod", "--noauth"]
 
   api-app:
