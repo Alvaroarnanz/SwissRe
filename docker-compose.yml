@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  mongo-db:
+    image: mongo:5.0
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    networks:
+      - swissre_app-network
+    environment:
+      - MONGO_URI=mongodb://mongo-db:27017
+    command: ["mongod", "--noauth"]
+
+  api-app:
+    build:
+      context: ./VulnerabilityAPI
+    container_name: python-api
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo-db:27017
+    networks:
+      - swissre_app-network
+    depends_on:
+      - mongo-db
+
+  cli-app:
+    build:
+      context: ./vulnerability-cli
+    container_name: dotnet-cli
+    depends_on:
+      - api-app
+    networks:
+      - swissre_app-network
+
+networks:
+  swissre_app-network:
+    driver: nat
