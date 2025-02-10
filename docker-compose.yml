@@ -7,7 +7,7 @@ services:
     networks:
       - swissre_app-network
     environment:
-      - MONGO_URI=mongodb://localhost:27017/vulnerabilities_db
+      - MONGO_INITDB_DATABASE=vulnerabilities_db
     command: ["mongod", "--noauth"]
 
   api-app:
@@ -17,7 +17,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - MONGO_URI=mongodb://mongo-db:27017
+      - MONGO_URI=mongodb://mongo-db:27017/vulnerabilities_db
     networks:
       - swissre_app-network
     depends_on:
@@ -34,4 +34,4 @@ services:
 
 networks:
   swissre_app-network:
-    driver: nat
+    driver: bridge
